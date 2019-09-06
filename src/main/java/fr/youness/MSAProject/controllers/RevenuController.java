@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class RevenuController {
     @RequestMapping(value = "/revenu", method = RequestMethod.GET)
     public ArrayList<String> getRevenus(){
-        ArrayList<String> revenus = new ArrayList<String>();
+        ArrayList<String> revenus = new ArrayList<>();
         revenus.add("1000");
         revenus.add("2000");
         return revenus;
