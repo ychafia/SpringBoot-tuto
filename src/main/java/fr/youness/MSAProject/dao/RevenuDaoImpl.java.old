@@ -6,6 +6,10 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+    To be removed
+ */
+
 @Repository
 public class RevenuDaoImpl implements RevenuDao {
     public static List<Revenu> revenus = new ArrayList<>();
@@ -30,7 +34,7 @@ public class RevenuDaoImpl implements RevenuDao {
     }
 
     @Override
-    public void Revenusave(Revenu revenu) {
-        revenus.add(revenu);
+    public boolean RevenuSave(Revenu revenu) {
+        return revenus.add(revenu);
     }
 }

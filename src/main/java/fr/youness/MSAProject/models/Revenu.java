@@ -1,8 +1,18 @@
 package fr.youness.MSAProject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Revenu {
+    @Id
+    @GeneratedValue
     private Long id_revenu;
     private String libelle_revenu;
+    @JsonIgnore
     private float salaire_revenu;
     private String mois_salaire;
 
