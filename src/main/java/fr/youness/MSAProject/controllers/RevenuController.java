@@ -1,6 +1,8 @@
 package fr.youness.MSAProject.controllers;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import fr.youness.MSAProject.dao.RevenuDao;
+import fr.youness.MSAProject.exceptions.RevenuNotFoundRevenuException;
 import fr.youness.MSAProject.models.Revenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -28,10 +30,15 @@ public class RevenuController {
 
     @RequestMapping(value= "/revenu/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getRevenuById(@PathVariable Long id) {
+        Revenu revenu;
         if(id == 0) {
             return new ResponseEntity<String>("Private key", HttpStatus.FORBIDDEN);
         }
-        Revenu revenu = revenuDao.findById(id).get();
+        try {
+            revenu = revenuDao.findById(id).get();
+        } catch (Exception e) {
+            throw new RevenuNotFoundRevenuException("Revenu introuvable (id=" + id + ")");
+        }
         return new ResponseEntity<Revenu>(revenu, HttpStatus.OK);
     }
 

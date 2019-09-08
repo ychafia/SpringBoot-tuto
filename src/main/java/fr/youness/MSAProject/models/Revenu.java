@@ -1,16 +1,19 @@
 package fr.youness.MSAProject.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
 
 @Entity
 public class Revenu {
     @Id
     @GeneratedValue
     private Long id_revenu;
+    @Length(min=3, max=20)
     private String libelle_revenu;
     @JsonIgnore
     private float salaire_revenu;
