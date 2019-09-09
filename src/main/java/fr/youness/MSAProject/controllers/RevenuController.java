@@ -34,11 +34,12 @@ public class RevenuController {
         if(id == 0) {
             return new ResponseEntity<String>("Private key", HttpStatus.FORBIDDEN);
         }
-        try {
-            revenu = revenuDao.findById(id).get();
-        } catch (Exception e) {
+        boolean isExist = revenuDao.existsById(id);
+        if(isExist) { revenu = revenuDao.findById(id).get();}
+        else {
             throw new RevenuNotFoundRevenuException("Revenu introuvable (id=" + id + ")");
         }
+
         return new ResponseEntity<Revenu>(revenu, HttpStatus.OK);
     }
 
