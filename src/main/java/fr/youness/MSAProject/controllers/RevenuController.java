@@ -67,8 +67,14 @@ public class RevenuController {
 
     @DeleteMapping(value="/revenu/{id}")
     public ResponseEntity<?> deleteRevenu(@PathVariable Long id, UriComponentsBuilder builder) {
-        Revenu revenu = revenuDao.findById(id).get();
-        revenuDao.delete(revenu);
+        Revenu revenu = null;
+        boolean isExist = revenuDao.existsById(id);
+        if(isExist) {
+            revenu = revenuDao.findById(id).get();
+            revenuDao.delete(revenu);
+        } else {
+            throw new RevenuNotFoundRevenuException("Revenu introuvable (id=" + id + ")");
+        }
         if(true){
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(builder.path("/msaproject/revenu/{id}").buildAndExpand(revenu.getId_revenu()).toUri());
