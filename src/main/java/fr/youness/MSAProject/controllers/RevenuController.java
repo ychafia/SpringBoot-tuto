@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/msaproject/")
+@RequestMapping("/msaproject")
 public class RevenuController {
     @Autowired
     private RevenuDao revenuDao;
