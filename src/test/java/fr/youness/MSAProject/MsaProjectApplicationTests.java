@@ -1,6 +1,7 @@
 package fr.youness.MSAProject;
 
 import fr.youness.MSAProject.dao.RevenuDao;
+import fr.youness.MSAProject.services.IRevenuService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -24,11 +25,11 @@ public class MsaProjectApplicationTests {
 	MockMvc mockMvc;
 
 	@MockBean
-	RevenuDao revenuDao;
+	IRevenuService revenuService;
 
 	@Test
 	public void contextLoads() throws Exception {
-		Mockito.when(revenuDao.findAll()).thenReturn(Collections.emptyList());
+		Mockito.when(revenuService.getRevenus()).thenReturn(Collections.emptyList());
 
 		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/revenusapi/revenus").accept(MediaType.APPLICATION_JSON)).andReturn();
 
@@ -36,7 +37,7 @@ public class MsaProjectApplicationTests {
 		System.out.println(mvcResult.getResponse());
 		System.out.println("#########################");
 
-		Mockito.verify(revenuDao).findAll();
+		Mockito.verify(revenuService).getRevenus();
 	}
 
 }

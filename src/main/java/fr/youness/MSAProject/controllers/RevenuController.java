@@ -21,8 +21,6 @@ public class RevenuController {
     @Autowired
     private IRevenuService revenuService;
 
-    //private RevenuDao revenuDao;
-
     @RequestMapping(value = "/revenus", method = RequestMethod.GET)
     public ResponseEntity<List<Revenu>> getRevenus() {
         List<Revenu> list = revenuService.getRevenus();

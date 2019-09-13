@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.youness.MSAProject.dao.RevenuDao;
 import fr.youness.MSAProject.models.Revenu;
+import fr.youness.MSAProject.services.IRevenuService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +32,7 @@ public class RevenuControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    RevenuDao revenuDao;
+    IRevenuService revenuService;
 
     String URI = "/revenusapi/revenu";
     Revenu mockedRevenu = new Revenu(1L, "Sal1", 100, "Janv-19");
@@ -41,7 +42,7 @@ public class RevenuControllerTest {
 
         String mockedRevenuJson = this.mapToJson(mockedRevenu);
 
-        Mockito.when(revenuDao.save(Mockito.any(Revenu.class))).thenReturn(mockedRevenu);
+        Mockito.when(revenuService.updateAndSaveRevenu(Mockito.any(Revenu.class))).thenReturn(true);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post(URI)
@@ -58,18 +59,74 @@ public class RevenuControllerTest {
     }
 
     @Test
-    public void getRevenuByIdTest() throws Exception {
-//        Mockito.when(revenuDao.findAllById(1L).thenReturn(mockedRevenu);
-//
-//        URI = "/revenusapi/revenu/1";
-//        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON);
-//
-//        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-//
-//        String expectedJson = this.mapToJson(mockedRevenu);
-//        String outputInJson = result.getResponse().getContentAsString();
-//        assertThat(outputInJson).isEqualTo(expectedJson);
+    public void addRevenuWithfailure() throws Exception {
+        String mockedRevenuJson = this.mapToJson(mockedRevenu);
 
+        Mockito.when(revenuService.updateAndSaveRevenu(Mockito.any(Revenu.class))).thenReturn(false);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post(URI)
+                .accept(MediaType.APPLICATION_JSON).content(mockedRevenuJson)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        String outputInJson = response.getContentAsString();
+
+        assertThat(outputInJson).isEqualTo("Error to add new revenu");
+        Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
+    }
+
+    @Test
+    public void getRevenuByIdTest() throws Exception {
+        Mockito.when(revenuService.getRevenuById(1L)).thenReturn(mockedRevenu);
+
+        URI = "/revenusapi/revenu/1";
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+        String expectedJson = this.mapToJson(mockedRevenu);
+        String outputInJson = result.getResponse().getContentAsString();
+        assertThat(outputInJson).isEqualTo(expectedJson);
+    }
+
+    @Test
+    public void updateRevenuTest() throws Exception {
+        String mockedRevenuJson = this.mapToJson(mockedRevenu);
+        Mockito.when(revenuService.updateAndSaveRevenu(Mockito.any(Revenu.class))).thenReturn(true);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .put(URI)
+                .accept(MediaType.APPLICATION_JSON).content(mockedRevenuJson)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        String outputInJson = response.getContentAsString();
+
+        assertThat(outputInJson).isEqualTo("");
+        Assert.assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+    }
+
+    @Test
+    public void deleteRevenuTest() throws Exception {
+        String mockedRevenuJson = this.mapToJson(mockedRevenu);
+        Mockito.when(revenuService.deleteRevenu(Mockito.any(Long.class))).thenReturn(true);
+
+        URI = "/revenusapi/revenu/1";
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(URI).accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        String outputInJson = response.getContentAsString();
+
+        assertThat(outputInJson).isEqualTo("");
+        Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
 
 
