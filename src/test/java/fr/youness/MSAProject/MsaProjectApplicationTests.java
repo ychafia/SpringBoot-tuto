@@ -1,13 +1,11 @@
 package fr.youness.MSAProject;
 
-import fr.youness.MSAProject.controllers.RevenuController;
 import fr.youness.MSAProject.dao.RevenuDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -32,7 +30,7 @@ public class MsaProjectApplicationTests {
 	public void contextLoads() throws Exception {
 		Mockito.when(revenuDao.findAll()).thenReturn(Collections.emptyList());
 
-		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/msaproject/revenus").accept(MediaType.APPLICATION_JSON)).andReturn();
+		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/revenusapi/revenus").accept(MediaType.APPLICATION_JSON)).andReturn();
 
 		System.out.println("#########################");
 		System.out.println(mvcResult.getResponse());

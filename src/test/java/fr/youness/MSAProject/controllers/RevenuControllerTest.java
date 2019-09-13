@@ -24,7 +24,6 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
-
 @RunWith(SpringRunner.class)
 @WebMvcTest(value=RevenuController.class)
 public class RevenuControllerTest {
@@ -34,7 +33,7 @@ public class RevenuControllerTest {
     @MockBean
     RevenuDao revenuDao;
 
-    String URI = "/msaproject/revenu";
+    String URI = "/revenusapi/revenu";
     Revenu mockedRevenu = new Revenu(1L, "Sal1", 100, "Janv-19");
 
     @Test
@@ -57,6 +56,22 @@ public class RevenuControllerTest {
         assertThat(outputInJson).isEqualTo("");
         Assert.assertEquals(HttpStatus.CREATED.value(), response.getStatus());
     }
+
+    @Test
+    public void getRevenuByIdTest() throws Exception {
+//        Mockito.when(revenuDao.findAllById(1L).thenReturn(mockedRevenu);
+//
+//        URI = "/revenusapi/revenu/1";
+//        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON);
+//
+//        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+//
+//        String expectedJson = this.mapToJson(mockedRevenu);
+//        String outputInJson = result.getResponse().getContentAsString();
+//        assertThat(outputInJson).isEqualTo(expectedJson);
+
+    }
+
 
     /**
      * Maps an Object into a JSON String. Uses a Jackson ObjectMapper.

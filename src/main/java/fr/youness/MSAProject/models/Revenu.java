@@ -17,69 +17,74 @@ import java.sql.Timestamp;
 public class Revenu {
     @Id
     @GeneratedValue
-    private Long id_revenu;
-    @Length(min=3, max=20)
-    private String libelle_revenu;
-    @JsonIgnore
-    private float salaire_revenu;
-    private String mois_salaire;
+    private Long id;
 
+    @Length(min=3, max=20)
+    private String libelle;
+
+    private float salaire;
+
+    private String mois;
+
+    @JsonIgnore
     @CreatedBy
     @Column(nullable = false, updatable = false)
     private String createdBy;
 
+    @JsonIgnore
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private Timestamp created;
 
+    @JsonIgnore
     @LastModifiedBy
     @Column(nullable = false)
     private String modifiedBy;
 
+    @JsonIgnore
     @LastModifiedDate
     @Column(nullable = false)
     private Timestamp modified;
 
-    public Revenu() {
+    public Revenu() {}
 
-    }
-    public Revenu(Long id_revenu, String libelle_revenu, float salaire_revenu, String mois_salaire) {
-        this.id_revenu = id_revenu;
-        this.libelle_revenu = libelle_revenu;
-        this.salaire_revenu = salaire_revenu;
-        this.mois_salaire = mois_salaire;
-    }
-
-    public Long getId_revenu() {
-        return id_revenu;
+    public Revenu(Long id, @Length(min = 3, max = 20) String libelle, float salaire, String mois) {
+        this.id = id;
+        this.libelle = libelle;
+        this.salaire = salaire;
+        this.mois = mois;
     }
 
-    public String getLibelle_revenu() {
-        return libelle_revenu;
+    public Long getId() {
+        return id;
     }
 
-    public float getSalaire_revenu() {
-        return salaire_revenu;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getMois_salaire() {
-        return mois_salaire;
+    public String getLibelle() {
+        return this.libelle;
     }
 
-    public void setId_revenu(Long id_revenu) {
-        this.id_revenu = id_revenu;
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
     }
 
-    public void setLibelle_revenu(String libelle_revenu) {
-        this.libelle_revenu = libelle_revenu;
+    public float getSalaire() {
+        return this.salaire;
     }
 
-    public void setSalaire_revenu(float salaire_revenu) {
-        this.salaire_revenu = salaire_revenu;
+    public void setSalaire(float salaire) {
+        this.salaire = salaire;
     }
 
-    public void setMois_salaire(String mois_salaire) {
-        this.mois_salaire = mois_salaire;
+    public String getMois() {
+        return this.mois;
+    }
+
+    public void setMois(String mois) {
+        this.mois = mois;
     }
 
     public String getCreatedBy() {
@@ -117,10 +122,10 @@ public class Revenu {
     @Override
     public String toString() {
         return "Revenu{" +
-                "id_revenu=" + id_revenu +
-                ", libelle_revenu='" + libelle_revenu + '\'' +
-                ", salaire_revenu=" + salaire_revenu +
-                ", mois_salaire=" + mois_salaire +
+                "id=" + id +
+                ", libelle='" + libelle + '\'' +
+                ", salaire=" + salaire +
+                ", mois=" + mois +
                 '}';
     }
 }
