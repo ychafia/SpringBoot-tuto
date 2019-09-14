@@ -24,6 +24,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value=RevenuController.class)
@@ -93,6 +96,22 @@ public class RevenuControllerTest {
     }
 
     @Test
+    public void getRevenuByIdForbiden() throws Exception {
+        Mockito.when(revenuService.getRevenuById(Mockito.any(Long.class))).thenReturn(mockedRevenu);
+
+        URI = "/revenusapi/revenu/0";
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+//        String expectedJson = this.mapToJson(mockedRevenu);
+        MockHttpServletResponse response = result.getResponse();
+        String outputInJson = response.getContentAsString();
+        assertThat(outputInJson).isEqualTo("Private key");
+        Assert.assertEquals(HttpStatus.FORBIDDEN.value(), response.getStatus());
+    }
+
+    @Test
     public void updateRevenuTest() throws Exception {
         String mockedRevenuJson = this.mapToJson(mockedRevenu);
         Mockito.when(revenuService.updateAndSaveRevenu(Mockito.any(Revenu.class))).thenReturn(true);
@@ -129,6 +148,61 @@ public class RevenuControllerTest {
         Assert.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
 
+
+    @Test
+    public void deleteRevenuTestWithException() throws Exception {
+        String mockedRevenuJson = this.mapToJson(mockedRevenu);
+        Mockito.when(revenuService.deleteRevenu(Mockito.any(Long.class))).thenReturn(false);
+
+        URI = "/revenusapi/revenu/1";
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(URI).accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        String outputInJson = response.getContentAsString();
+
+//        assertThat(outputInJson).isEqualTo("Revenu introuvable (id=11)");
+        Assert.assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+    }
+
+    @Test
+    public void getRevenuByMoisTest() throws Exception {
+        List list = new ArrayList();
+        list.add(mockedRevenu);
+        Mockito.when(revenuService.getRevenuByMois(Mockito.any(String.class))).thenReturn(list);
+
+        URI = "/revenusapi/revenus/mois/janv-18";
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        String expectedJson = this.mapToJson(list);
+        String outputInJson = response.getContentAsString();
+
+        assertThat(outputInJson).isEqualTo(expectedJson);
+        Assert.assertEquals(HttpStatus.FOUND.value(), response.getStatus());
+    }
+
+    @Test
+    public void getRevenuByMoisTestNotFound() throws Exception {
+        List list = new ArrayList();
+        Mockito.when(revenuService.getRevenuByMois(Mockito.any(String.class))).thenReturn(list);
+
+        URI = "/revenusapi/revenus/mois/janv-19";
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        //String expectedJson = this.mapToJson(list);
+        String outputInJson = result.getResponse().getContentAsString();
+
+        assertThat(outputInJson).isEqualTo("No element founded");
+        Assert.assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+    }
 
     /**
      * Maps an Object into a JSON String. Uses a Jackson ObjectMapper.

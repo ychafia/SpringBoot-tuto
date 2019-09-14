@@ -1,0 +1,119 @@
+package fr.youness.MSAProject;
+
+import java.util.ArrayList;
+
+//@SpringBootApplication
+//@EnableAutoConfiguration
+public class MsaProjectApplication {
+
+	public static void main(String[] args) {
+		//SpringApplication.run(MsaProjectApplication.class, args);
+		System.out.println("I am ready :)");
+		System.out.println( isFoo("de"));
+		System.out.println("#################");
+		int i1 = 5;
+		int i2 = 2;
+		float i3 = i1 / i2;
+		System.out.println(i3);
+		System.out.println("#################");
+		System.out.println(somme1(1,2));
+		System.out.println(somme1(-3,2));
+		System.out.println(somme1(10,-9));
+		System.out.println("#################");
+		System.out.println(Planet.MERCURY == Planet.MERCURY);
+		System.out.println(Planet.VENUS.equals(Planet.VENUS));
+		System.out.println(Planet.EARTH.equals("EARTH"));
+		System.out.println("#################");
+		ArrayList l = new ArrayList(2);
+		l.add(1);
+		l.add(1);
+		l.add(1);
+		l.add(1);
+		System.out.println(l.size());
+		System.out.println("#################");
+		int[] ints = {30, 4, 9, 12, 98, -10, 10};
+		System.out.println(sumRange(ints));
+		System.out.println("#################");
+		int[] ints2 = {30, -1, 9, 12, 98, -10, 1};
+		System.out.println(closestToZero(ints2));
+		System.out.println("#################");
+		System.out.println(numberOfPairs(4));
+		System.out.println("#################");
+		int a = 0;
+		System.out.println(a++);
+		System.out.println(++a);
+		System.out.println("#################");
+		String[] tabStr = {"Y", "o", "u"};
+		System.out.println(concat(tabStr));
+	}
+
+	public static boolean isFoo(String chaine) {
+		if(chaine == null) {
+			return false;
+		} else if(chaine.equals("foo")) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean somme1(int i, int j) {
+		if(i == 1 || j == 1) {
+			return true;
+		} else if( (i + j) == 1 ){
+			return true;
+		}
+		return false;
+	}
+
+	public static int sumRange(int[] ints) {
+		int total = 0;
+		for (int i=0; i < ints.length; i++) {
+			if(ints[i] >= 10 && ints[i] <= 100) {
+				total += ints[i];
+			}
+		}
+		return total;
+	}
+
+	public static int closestToZero(int[] ints) {
+		if(ints.length > 0) {
+			int indiceProcheZero = 0;
+			int procheZero = ints [0];
+			for (int i = 1; i < ints.length; i++) {
+				if(Math.abs(procheZero) > Math.abs(ints[i])) {
+					procheZero = Math.abs(ints[i]);
+					indiceProcheZero = i;
+				}
+			}
+			return ints[indiceProcheZero];
+		} else {
+			return 0;
+		}
+	}
+
+	public static int numberOfPairs(int nb) {
+		int nbPairs = 0;
+		for(int i=2; i <= nb; i++ ) {
+			for(int j=i; j <= nb; j++) {
+				nbPairs++;
+			}
+		}
+		return nbPairs;
+	}
+
+	public static String concat(String[] tabStr) {
+		String chaine = "";
+		if(tabStr.length == 0) {
+			return "";
+		} else {
+			for (int i = 0; i < tabStr.length; i++) {
+				chaine += String.join(chaine, tabStr[i]);
+			}
+			return chaine;
+		}
+	}
+}
+
+enum Planet {
+	MERCURY, VENUS, EARTH
+}
