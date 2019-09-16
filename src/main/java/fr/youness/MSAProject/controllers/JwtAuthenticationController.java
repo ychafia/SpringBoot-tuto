@@ -5,6 +5,8 @@ import java.util.Objects;
 import fr.youness.MSAProject.config.JwtRequest;
 import fr.youness.MSAProject.config.JwtResponse;
 import fr.youness.MSAProject.config.JwtTokenUtil;
+import fr.youness.MSAProject.models.User;
+import fr.youness.MSAProject.models.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,6 +45,11 @@ public class JwtAuthenticationController {
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<?> saveUser(@RequestBody UserDto user) throws Exception {
+        return ResponseEntity.ok(userDetailsService.save(user));
     }
 
     private void authenticate(String username, String password) throws Exception {
