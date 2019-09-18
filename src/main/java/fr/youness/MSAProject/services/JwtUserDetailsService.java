@@ -22,7 +22,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        fr.youness.MSAProject.models.User _user = userDao.findByUsername(username);
+        fr.youness.MSAProject.models.User _user = userDao.findByIsActiveAndUsername(true ,username);
         if(_user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
@@ -32,6 +32,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     public fr.youness.MSAProject.models.User save(UserDto user) {
         fr.youness.MSAProject.models.User newUser = new fr.youness.MSAProject.models.User();
         newUser.setUsername(user.getUsername());
+        newUser.setActive(false);
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.save(newUser);
         return newUser;
