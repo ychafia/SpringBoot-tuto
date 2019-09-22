@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/elementsapi")
+@CrossOrigin
 public class ElementController {
     @Autowired
     private IElementService elementService;
