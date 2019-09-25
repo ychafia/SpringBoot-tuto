@@ -30,11 +30,7 @@ public class ElementService implements IElementService {
     }
 
     @Override
-    public boolean updateAndSaveElement(Element e) {
-        Element savedElm = elementDao.save(e);
-        if(savedElm != null) {
-            return true;
-        }
-        return false;
+    public Element updateAndSaveElement(Element e) {
+        return elementDao.save(e);
     }
 }

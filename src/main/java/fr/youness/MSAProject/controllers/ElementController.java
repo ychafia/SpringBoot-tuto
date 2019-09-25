@@ -23,7 +23,8 @@ public class ElementController {
 
     @PostMapping(value = "/element")
     public ResponseEntity<?> addElement(@RequestBody Element element) {
-        return new ResponseEntity<>(elementService.updateAndSaveElement(element), HttpStatus.CREATED);
+        Element _element = elementService.updateAndSaveElement(element);
+        return new ResponseEntity<>(_element.getId_element(), HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/element/{id}")
