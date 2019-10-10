@@ -1,0 +1,65 @@
+
+/etc/init.d/tomcat8 stop
+
+rm -R /var/lib/tomcat8/webapps/Blognotes
+rm -R /var/lib/tomcat8/webapps/Blognotes.webapps/Blognotes
+
+cp Blognotes.war /var/lib/tomcat8/webapps/
+ls -l /var/lib/tomcat8/webapps/
+
+/etc/init.d/tomcat8 start
+taskkill -pid 9576 /f Windows kill port
+
+usersamba : pi psw : Youness$123
+
+
+rm -R /var/www/html/blocnotes/*
+
+cp -r /home/pi/Desktop/.htaccess /var/www/html/blocnotes/
+
+cp -r /home/pi/Desktop/dist/* /var/www/html/blocnotes/
+
+ls -la
+
+
+SettatMaurepas2018
+
+========================SSMPT raspberrry =================================
+ echo "contenu" | mail -s "sujet de l’email" chafiagillot@gmail.com
+https://serverfault.com/questions/635139/how-to-fix-send-mail-authorization-failed-534-5-7-14
+75
+
+It may take more than one step to fix this issue
+
+Take the step mentioned earlier. Log into your google email account and then go to this link: https://www.google.com/settings/security/lesssecureapps and set "Access for less secure apps" to ON. Test to see if your issue is resolved. If it isn't resolved, as it wasn't for me, continue to Step #2.
+
+Go to https://support.google.com/accounts/answer/6009563 (Titled: "Password incorrect error"). This page says "There are several reasons why you might see a “Password incorrect” error (aka 534-5.7.14) when signing in to Google using third-party apps. In some cases even if you type your password correctly." This page gives 4 suggestions of things to try.
+
+For me, the first suggestion worked:
+
+Go to https://g.co/allowaccess from a different device you have previously used to access your Google account and follow the instructions.
+Try signing in again from the blocked app.
+There were three more suggestions on the page given in step #2 but I didn't try them because after going to the redacted link and following the instructions, everything began to work as it should.
+
+
+This worked for me.
+
+1) Login to your gmail account.
+
+2) Go to https://www.google.com/settings/security/lesssecureapps and Turn On this feature.
+
+3) Go to https://accounts.google.com/DisplayUnlockCaptcha and click Continue.
+
+Then you can authenticate your Additional Email Address from your Gmail Account.
+
+Edit: In my case it helped to write smtp.gmail.com instead of smtp.gmail.com:587.
+
+=========================================================
+
+Scan des port ouvert sur le raspberrry :
+nmap -sS 127.0.0.1
+
+=========================================================
+Crontab tourne tous les jours à 20
+crontab -e
+

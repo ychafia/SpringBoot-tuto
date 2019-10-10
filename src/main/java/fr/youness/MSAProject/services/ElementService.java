@@ -17,6 +17,7 @@ public class ElementService implements IElementService {
     public List<Element> getElements() {
         List<Element> list = new ArrayList<>();
         elementDao.findAll().forEach(e -> list.add(e) );
+        System.out.println(list);
         return list;
     }
 
